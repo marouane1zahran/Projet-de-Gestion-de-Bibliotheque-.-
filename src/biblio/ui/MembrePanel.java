@@ -34,6 +34,7 @@ public class MembrePanel extends JPanel {
     public MembrePanel(){
        
         setLayout(new BorderLayout(10, 10));
+        
 
        
         JPanel panelFormulaire = new JPanel(new GridLayout(4, 4, 5, 5));

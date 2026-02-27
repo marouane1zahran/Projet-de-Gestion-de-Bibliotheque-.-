@@ -3,8 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/HP/Desktop/PROJET%20Gestion%20de%20Bibliothèque/Gestion%20de%20Bibliothèque/src/biblio/ui/MainFrame.java</file>
-            <file>file:/C:/Users/HP/Desktop/PROJET%20Gestion%20de%20Bibliothèque/Gestion%20de%20Bibliothèque/src/biblio/ui/Login.java</file>
+            <file>file:/C:/Users/HP/Desktop/PROJET%20Gestion%20de%20Bibliothèque/Gestion%20de%20Bibliothèque/src/biblio/ui/EmpruntPanel.java</file>
+            <file>file:/C:/Users/HP/Desktop/PROJET%20Gestion%20de%20Bibliothèque/Gestion%20de%20Bibliothèque/src/login/IdAndPasswords.java</file>
+            <file>file:/C:/Users/HP/Desktop/PROJET%20Gestion%20de%20Bibliothèque/Gestion%20de%20Bibliothèque/src/login/SecurityUtils.java</file>
+            <file>file:/C:/Users/HP/Desktop/PROJET%20Gestion%20de%20Bibliothèque/Gestion%20de%20Bibliothèque/src/login/Login.java</file>
+            <file>file:/C:/Users/HP/Desktop/PROJET%20Gestion%20de%20Bibliothèque/Gestion%20de%20Bibliothèque/src/biblio/ui/MembrePanel.java</file>
+            <file>file:/C:/Users/HP/Desktop/PROJET%20Gestion%20de%20Bibliothèque/Gestion%20de%20Bibliothèque/src/biblio/ui/dashboard.java</file>
+            <file>file:/C:/Users/HP/Desktop/PROJET%20Gestion%20de%20Bibliothèque/Gestion%20de%20Bibliothèque/src/biblio/ui/LivrePanel.java</file>
         </group>
     </open-files>
 </project-private>

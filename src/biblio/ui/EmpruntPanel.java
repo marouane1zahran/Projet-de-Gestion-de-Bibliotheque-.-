@@ -35,10 +35,12 @@ public class EmpruntPanel extends JPanel {
    public EmpruntPanel(LivrePanel livrePanel) {
         this.livrePanel = livrePanel;
         setLayout(new BorderLayout(10, 10));
+        
 
         // 1. Création du Formulaire (En haut)
-        JPanel panelFormulaire = new JPanel(new GridLayout(1, 4, 10, 10));
+        JPanel panelFormulaire = new JPanel(new GridLayout(1, 2, 10, 10));
         panelFormulaire.setBorder(BorderFactory.createTitledBorder("Nouvel Emprunt"));
+        panelFormulaire.setPreferredSize(new Dimension(0, 80));
 
         panelFormulaire.add(new JLabel("Sélectionner un Membre :", SwingConstants.RIGHT));
         panelFormulaire.add(cbMembres);
@@ -65,6 +67,8 @@ public class EmpruntPanel extends JPanel {
         JPanel panelNord = new JPanel(new BorderLayout());
         panelNord.add(panelFormulaire, BorderLayout.CENTER);
         panelNord.add(panelBoutons, BorderLayout.SOUTH);
+       panelNord.setPreferredSize(new Dimension(0, 120)); 
+
         add(panelNord, BorderLayout.NORTH);
 
         // 3. Création du Tableau (Au centre)

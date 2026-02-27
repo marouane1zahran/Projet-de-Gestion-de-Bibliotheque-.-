@@ -26,6 +26,7 @@ public class LivrePanel extends JPanel {
     public LivrePanel() {
         // Organisation générale du panneau (Haut, Centre, Bas)
         setLayout(new BorderLayout(10, 10));
+       
 
         // 1. Création du Formulaire (En haut)
         JPanel panelFormulaire = new JPanel(new GridLayout(2, 4, 10, 10));

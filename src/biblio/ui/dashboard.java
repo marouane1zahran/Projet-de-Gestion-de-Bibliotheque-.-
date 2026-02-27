@@ -7,6 +7,7 @@ package biblio.ui;
 
 import javax.swing.JPanel;
 
+
 /**
  *
  * @author speed
@@ -20,13 +21,20 @@ public class dashboard extends javax.swing.JFrame {
     public dashboard() {
         initComponents();
         
-        this.setLocationRelativeTo(null); // Pour centrer la fenêtre
+        this.setLocationRelativeTo(null);
+        this.setSize(1500, 600); 
+        
+       
+        this.setMinimumSize(new java.awt.Dimension(1000, 700)); 
+        
+       
 
       
         panelLivres = new LivrePanel();
         panelMembres = new MembrePanel();
         
         panelEmprunts = new EmpruntPanel(panelLivres);
+        
         
         
         
@@ -43,15 +51,22 @@ public class dashboard extends javax.swing.JFrame {
         jPanel9.removeAll();
         
         
-        nouveauPanel.setVisible(true); 
-        jPanel9.setLayout(new java.awt.BorderLayout()); 
-        
+       java.awt.Dimension tailleFixe = jPanel9.getSize();
+
        
+        nouveauPanel.setPreferredSize(tailleFixe);
+        nouveauPanel.setMaximumSize(tailleFixe);
+
+       
+        jPanel9.setLayout(new java.awt.BorderLayout());
         jPanel9.add(nouveauPanel, java.awt.BorderLayout.CENTER);
 
         
         jPanel9.revalidate();
         jPanel9.repaint();
+        
+        titrepage.setText(titre);
+        
         
         System.out.println("Affichage terminé avec succès !");
     }
@@ -83,12 +98,13 @@ public class dashboard extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        lblTitre = new javax.swing.JLabel();
+        titrepage = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         bg.setBackground(new java.awt.Color(204, 204, 204));
+        bg.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 102, 102), null));
 
         sidepane.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -225,7 +241,7 @@ public class dashboard extends javax.swing.JFrame {
             .addGroup(sidepaneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         sidepaneLayout.setVerticalGroup(
             sidepaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,9 +262,9 @@ public class dashboard extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(0, 102, 102));
 
-        lblTitre.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        lblTitre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTitre.setText("Accueil ");
+        titrepage.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        titrepage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titrepage.setText("Accueil ");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -258,7 +274,7 @@ public class dashboard extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 383, Short.MAX_VALUE)
-                    .addComponent(lblTitre)
+                    .addComponent(titrepage)
                     .addGap(0, 384, Short.MAX_VALUE)))
         );
         jPanel8Layout.setVerticalGroup(
@@ -267,10 +283,11 @@ public class dashboard extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(lblTitre)
+                    .addComponent(titrepage)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
+        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 102, 102), new java.awt.Color(0, 0, 0)));
         jPanel9.setForeground(new java.awt.Color(102, 204, 255));
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
@@ -290,7 +307,7 @@ public class dashboard extends javax.swing.JFrame {
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bgLayout.createSequentialGroup()
                 .addComponent(sidepane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -313,13 +330,13 @@ public class dashboard extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -336,6 +353,8 @@ public class dashboard extends javax.swing.JFrame {
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         afficherPanel(panelMembres, "Gestion des Membres");
+       
+        
     }//GEN-LAST:event_jPanel2MouseClicked
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
@@ -397,7 +416,7 @@ public class dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JLabel lblTitre;
     private javax.swing.JPanel sidepane;
+    private javax.swing.JLabel titrepage;
     // End of variables declaration//GEN-END:variables
 }
