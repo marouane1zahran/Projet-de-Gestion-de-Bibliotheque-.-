@@ -55,11 +55,17 @@ public class MembrePanel extends JPanel {
         JButton btnModifier = new JButton("Modifier");
         JButton btnSupprimer = new JButton("Supprimer");
         JButton btnVider = new JButton("Vider les champs");
+        JButton btnChercher = new JButton("Chercher");
+        btnChercher.setBackground(new java.awt.Color(255, 204, 0));
+        JButton btnActualiser = new JButton("Actualiser");
 
         panelBoutons.add(btnAjouter);
         panelBoutons.add(btnModifier);
         panelBoutons.add(btnSupprimer);
         panelBoutons.add(btnVider);
+        panelBoutons.add(btnChercher);
+        
+         panelBoutons.add(btnActualiser);
         
         JPanel panelNord = new JPanel(new BorderLayout());
         panelNord.add(panelFormulaire, BorderLayout.CENTER);
@@ -72,11 +78,22 @@ public class MembrePanel extends JPanel {
         add(new JScrollPane(tableMembres), BorderLayout.CENTER);
         
         actualiserTableau();
-
+ 
         btnAjouter.addActionListener(e -> ajouterMembre());
         btnModifier.addActionListener(e -> modifierMembre());
         btnSupprimer.addActionListener(e -> supprimerMembre());
         btnVider.addActionListener(e -> viderChamps());
+        btnChercher.addActionListener(e ->ChercherMembre());
+        
+        btnActualiser.addActionListener(e -> {
+            
+            txtEmail.setText("");
+            txtDateInscription.setText("");
+            txtNom.setText("");
+
+    actualiserTableau(); 
+    
+});
 
         
         tableMembres.getSelectionModel().addListSelectionListener(e -> {
@@ -188,6 +205,44 @@ public class MembrePanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "Erreur inattendue : " + e.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    private void ChercherMembre() {
+          String nom = txtNom.getText().trim();
+            String email = txtEmail.getText().trim();
+            String dateInscription = txtDateInscription.getText().trim();
+
+            
+            if (nom.isEmpty() || email.isEmpty() || dateInscription.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Veuillez remplir le Nom, l'Email et la Date d'inscription (ex: YYYY-MM-DD) pour chercher.", 
+                        "Champs manquants", 
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            
+            List<Membre> resultats = membreService.rechercherMembresFormulaire(nom, email, dateInscription);
+            
+            
+            tableModel.setRowCount(0); 
+            
+           
+            for (Membre m : resultats) {
+                Object[] ligne = {
+                    m.getIdMembre(), 
+                    m.getNom(), 
+                    m.getEmail(), 
+                    m.getDateInscription() 
+                };
+                tableModel.addRow(ligne);
+            }
+            
+            if (resultats.isEmpty()) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Aucun membre trouvé avec ces informations exactes.");
+                actualiserTableau(); 
+            }
+        
     }
     
     

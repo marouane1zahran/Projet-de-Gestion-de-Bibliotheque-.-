@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -127,6 +128,74 @@ public class LivreDao implements IDao<Livre> {
             System.err.println("Erreur lors de la récupération des livres : " + e.getMessage());
         }
         return listeLivres;
+    }
+    
+    /**
+     * Recherche multicritère stricte : tous les champs doivent correspondre.
+     */
+  public List<Livre> rechercherParCriteres(String titre, String auteur, String genre, int annee) {
+        List<Livre> livresTrouves = new ArrayList<>();
+        String sql = "SELECT * FROM livre WHERE titre = ? AND auteur = ? AND genre = ? AND annee_publication = ?";
+        
+        
+        try (
+             java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, titre);
+            ps.setString(2, auteur);
+            ps.setString(3, genre);
+            ps.setInt(4, annee);
+            
+            
+            try (java.sql.ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Livre livre = new Livre(
+                        rs.getInt("id_Livre"), 
+                        rs.getString("titre"),
+                        rs.getString("auteur"),
+                        rs.getString("genre"),
+                        rs.getInt("annee_publication"), 
+                        rs.getBoolean("disponible")
+                    );
+                    livresTrouves.add(livre);
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            System.err.println("Erreur lors de la recherche multicritère : " + e.getMessage());
+        }
+       
+        return livresTrouves;
+        
+       
+    }
+  
+  /**
+     * Récupère le nombre de livres groupés par genre pour le graphique.
+     */
+    public Map<String, Integer> compterLivresParGenre() {
+        java.util.Map<String, Integer> statistiques = new java.util.HashMap<>();
+        String sql = "SELECT genre, COUNT(*) as total FROM livre GROUP BY genre";
+
+       
+        try {
+           
+           Connection conn = Database.getConnection(); 
+           PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                statistiques.put(rs.getString("genre"), rs.getInt("total"));
+            }
+
+           
+            rs.close();
+            ps.close();
+
+        } catch (java.sql.SQLException e) {
+            System.err.println("Erreur lors de la récupération des stats pour le graphique : " + e.getMessage());
+        }
+
+        return statistiques;
     }
     
 }

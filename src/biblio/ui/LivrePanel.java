@@ -2,29 +2,34 @@ package biblio.ui;
 
 import biblio.model.Livre;
 import biblio.service.LivreService;
+import biblio.util.Database;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.sql.Connection;
 import java.util.List;
+import javax.swing.table.TableRowSorter;
 
 public class LivrePanel extends JPanel {
 
-    // Service pour communiquer avec la base de données
+    
     private final LivreService livreService = new LivreService();
 
-    // Composants du formulaire
+   
     private final JTextField txtTitre = new JTextField(15);
     private final JTextField txtAuteur = new JTextField(15);
     private final JTextField txtGenre = new JTextField(15);
     private final JTextField txtAnnee = new JTextField(10);
+    private JTextField txtRecherche = new JTextField(20);
+    private TableRowSorter<DefaultTableModel> sorter;
 
-    // Composants du tableau
+   
     private final JTable tableLivres;
     private final DefaultTableModel tableModel;
 
     public LivrePanel() {
-        // Organisation générale du panneau (Haut, Centre, Bas)
+       
         setLayout(new BorderLayout(10, 10));
        
 
@@ -47,11 +52,16 @@ public class LivrePanel extends JPanel {
         JButton btnModifier = new JButton("Modifier");
         JButton btnSupprimer = new JButton("Supprimer");
         JButton btnVider = new JButton("Vider les champs");
+        JButton btnChercher = new JButton("Chercher");
+        btnChercher.setBackground(new Color(255, 204, 0));
+        JButton btnActualiser = new JButton("Actualiser");
 
         panelBoutons.add(btnAjouter);
         panelBoutons.add(btnModifier);
         panelBoutons.add(btnSupprimer);
         panelBoutons.add(btnVider);
+        panelBoutons.add(btnChercher);
+        panelBoutons.add(btnActualiser);
 
         // Regroupement du formulaire et des boutons au Nord
         JPanel panelNord = new JPanel(new BorderLayout());
@@ -59,36 +69,82 @@ public class LivrePanel extends JPanel {
         panelNord.add(panelBoutons, BorderLayout.SOUTH);
         add(panelNord, BorderLayout.NORTH);
 
-        // 3. Création du Tableau (Au centre/sud de l'écran)
-        String[] colonnes = {"ID", "Titre", "Auteur", "Genre", "Année", "Disponible"};
+       
+       String[] colonnes = {"ID", "Titre", "Auteur", "Genre", "Année", "Disponible"};
         tableModel = new DefaultTableModel(colonnes, 0);
         tableLivres = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(tableLivres);
-        add(scrollPane, BorderLayout.CENTER);
+        
+        
+        sorter = new TableRowSorter<>(tableModel);
+        tableLivres.setRowSorter(sorter);
 
-        // 4. Charger les données initiales dans le tableau
-        actualiserTableau();
+        
+        JPanel panelRecherche = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelRecherche.add(new JLabel("🔍 Rechercher (Titre, Auteur, etc.) : "));
+        panelRecherche.add(txtRecherche);
 
-        // 5. Action du bouton "Ajouter"
+        
+        JPanel panelCentre = new JPanel(new BorderLayout());
+        panelCentre.add(panelRecherche, BorderLayout.NORTH);
+        panelCentre.add(new JScrollPane(tableLivres), BorderLayout.CENTER);
+        
+        
+        add(panelCentre, BorderLayout.CENTER);
+
+        
+       
+
+       
         btnAjouter.addActionListener(e -> ajouterLivre());
         
-        // Action pour vider les champs
+        
         btnVider.addActionListener(e -> viderChamps());
         btnModifier.addActionListener(e -> modifierLivre());
         btnSupprimer.addActionListener(e -> supprimerLivre());
+        btnChercher.addActionListener(e -> rechercherLivresFormulaire());
+        btnActualiser.addActionListener(e -> {
+    txtTitre.setText("");
+    txtAuteur.setText("");
+    txtGenre.setText("");
+    txtAnnee.setText("");
+    
+    actualiserTableau();
+});
+      
+        
+         actualiserTableau();
+         
+        txtRecherche.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrerTableau(); }
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrerTableau(); }
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrerTableau(); }
+            
+            private void filtrerTableau() {
+                String texte = txtRecherche.getText();
+                if (texte.trim().length() == 0) {
+                    sorter.setRowFilter(null); 
+                } else {
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texte)); 
+                }
+            }
+        });
         
         tableLivres.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tableLivres.getSelectedRow() != -1) {
                 remplirChampsDepuisTableau();
             }
         });
+        
     }
 
     /**
      * Méthode pour récupérer les livres depuis la BDD et remplir le JTable
      */
     public void actualiserTableau() {
-        // On vide le tableau visuel
+      
         tableModel.setRowCount(0); 
         
         
@@ -242,4 +298,56 @@ public class LivrePanel extends JPanel {
             }
         }
     }
+
+    private void rechercherLivresFormulaire() {
+        String titre = txtTitre.getText().trim();
+            String auteur = txtAuteur.getText().trim();
+            String genre = txtGenre.getText().trim();
+            String anneeStr = txtAnnee.getText().trim();
+
+            // 2. Règle métier : On vérifie que TOUS les champs sont remplis
+            if (titre.isEmpty() || auteur.isEmpty() || genre.isEmpty() || anneeStr.isEmpty()) {
+                JOptionPane.showMessageDialog(this, 
+                        "Veuillez remplir tous les champs du formulaire (Titre, Auteur, Genre, Année) pour lancer la recherche.", 
+                        "Champs manquants", 
+                        JOptionPane.WARNING_MESSAGE);
+                return; 
+            }
+
+            try {
+                
+                int annee = Integer.parseInt(anneeStr);
+                
+                
+                List<Livre> resultats = livreService.rechercherLivresFormulaire(titre, auteur, genre, annee);
+                
+                
+                tableModel.setRowCount(0);
+                
+                for (Livre l : resultats) {
+                    Object[] ligne = {
+                        l.getIdLivre(), 
+                        l.getTitre(), 
+                        l.getAuteur(), 
+                        l.getGenre(), 
+                        l.getAnneePublication(), 
+                        l.isDisponible() ? "Oui" : "Non"
+                    };
+                    tableModel.addRow(ligne);
+                }
+                
+               
+                if (resultats.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Aucun livre ne correspond exactement à ces critères dans la base de données.");
+                    actualiserTableau(); 
+                }
+               
+                
+                
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "L'année doit être un nombre valide (ex: 2024).", "Erreur de saisie", JOptionPane.ERROR_MESSAGE);
+            }
+    }
+    
+    
 }

@@ -28,10 +28,16 @@ public class MembreDao implements IDao<Membre> {
             ps.setDate(3, Date.valueOf(membre.getDateInscription()));
             
             return ps.executeUpdate() > 0;
+            
+           
+            
+            
+             
         } catch (SQLException e) {
             System.err.println("Erreur création membre : " + e.getMessage());
             return false;
         }
+       
     }
 
     @Override
@@ -107,5 +113,41 @@ public class MembreDao implements IDao<Membre> {
             System.err.println("Erreur récupération membres : " + e.getMessage());
         }
         return membres;
+    }
+    /**
+     * Recherche stricte d'un membre avec une connexion locale 100% isolée.
+     */
+   /**
+     * Recherche stricte d'un membre avec sa propre connexion locale anti-bug.
+     */
+    public List<Membre> rechercherParCriteresSecurise(String nom, String email, String dateInscription) {
+        List<Membre> membresTrouves = new ArrayList<>();
+        
+        String sql = "SELECT * FROM membre WHERE nom = ? AND email = ? AND date_inscription = ?";
+        
+        
+        try {
+            
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, nom);
+            ps.setString(2, email);
+            ps.setString(3, dateInscription); 
+            
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Membre membre = new Membre(
+                        rs.getInt("id_Membre"), 
+                        rs.getString("nom"),
+                        rs.getString("email"),                     
+                        rs.getDate("date_inscription").toLocalDate()
+                    );
+                    membresTrouves.add(membre);
+                }
+            }
+        } catch (java.sql.SQLException e) {
+            System.err.println("Erreur dans la recherche membre : " + e.getMessage());
+        }
+        
+        return membresTrouves;
     }
 }

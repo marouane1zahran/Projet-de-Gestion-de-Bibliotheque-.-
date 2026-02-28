@@ -46,4 +46,7 @@ public class MembreService {
     public List<Membre> obtenirTousLesMembres() {
         return membreDao.findAll();
     }
+    public List<Membre> rechercherMembresFormulaire(String nom, String email, String dateInscription) {
+        return membreDao.rechercherParCriteresSecurise(nom, email, dateInscription);
+    }
 }

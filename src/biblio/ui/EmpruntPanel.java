@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
+import javax.swing.table.TableRowSorter;
 
 public class EmpruntPanel extends JPanel {
 
@@ -23,7 +24,8 @@ public class EmpruntPanel extends JPanel {
     
     private JComboBox<Membre> cbMembres = new JComboBox<>();
     private JComboBox<Livre> cbLivres = new JComboBox<>();
-
+    private JTextField txtRechercheRapide = new javax.swing.JTextField(20);
+    private  TableRowSorter<javax.swing.table.DefaultTableModel> sorter;
     // Composants du tableau
     private JTable tableEmprunts;
     private DefaultTableModel tableModel;
@@ -51,7 +53,8 @@ public class EmpruntPanel extends JPanel {
         JPanel panelBoutons = new JPanel(new FlowLayout());
         JButton btnEmprunter = new JButton("Enregistrer l'emprunt");
         JButton btnRetourner = new JButton("Enregistrer un retour");
-        JButton btnActualiser = new JButton("Actualiser les listes"); // Très utile si on ajoute un livre dans l'autre onglet !
+        JButton btnActualiser = new JButton("Actualiser les listes"); 
+        
 
         // On met en valeur les boutons principaux
         btnEmprunter.setBackground(new Color(46, 204, 113)); // Vert
@@ -73,9 +76,25 @@ public class EmpruntPanel extends JPanel {
 
         // 3. Création du Tableau (Au centre)
         String[] colonnes = {"ID Emprunt", "Membre", "Livre", "Date Emprunt", "Date Retour", "Statut"};
-        tableModel = new DefaultTableModel(colonnes, 0);
-        tableEmprunts = new JTable(tableModel);
-        add(new JScrollPane(tableEmprunts), BorderLayout.CENTER);
+        tableModel = new javax.swing.table.DefaultTableModel(colonnes, 0);
+        tableEmprunts = new javax.swing.JTable(tableModel);
+        
+        
+        sorter = new javax.swing.table.TableRowSorter<>(tableModel);
+        tableEmprunts.setRowSorter(sorter);
+
+        
+        javax.swing.JPanel panelRecherche = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        panelRecherche.add(new javax.swing.JLabel("🔍 Recherche rapide (Membre, Livre, Statut) : "));
+        panelRecherche.add(txtRechercheRapide);
+
+        
+        javax.swing.JPanel panelCentre = new javax.swing.JPanel(new java.awt.BorderLayout());
+        panelCentre.add(panelRecherche, java.awt.BorderLayout.NORTH);
+        panelCentre.add(new javax.swing.JScrollPane(tableEmprunts), java.awt.BorderLayout.CENTER);
+
+       
+        add(panelCentre, java.awt.BorderLayout.CENTER);
 
         // 4. Initialisation des données
         actualiserListesDeroulantes();
@@ -89,6 +108,26 @@ public class EmpruntPanel extends JPanel {
             actualiserTableau();
            if (this.livrePanel != null) {
                 this.livrePanel.actualiserTableau();
+            }
+        });
+        
+        
+        txtRechercheRapide.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrer(); }
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrer(); }
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrer(); }
+            
+            private void filtrer() {
+                String texte = txtRechercheRapide.getText();
+                if (texte.trim().length() == 0) {
+                    sorter.setRowFilter(null); // Affiche tout si la barre est vide
+                } else {
+                    // "(?i)" pour ignorer les majuscules/minuscules
+                    sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + texte)); 
+                }
             }
         });
     }

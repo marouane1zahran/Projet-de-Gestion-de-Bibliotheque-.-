@@ -17,6 +17,7 @@ public class dashboard extends javax.swing.JFrame {
     private LivrePanel panelLivres;
     private MembrePanel panelMembres;
     private EmpruntPanel panelEmprunts;
+    private AccueilPanel panelAccueil;
     
     public dashboard() {
         initComponents();
@@ -29,12 +30,12 @@ public class dashboard extends javax.swing.JFrame {
         
        
 
-      
+        panelAccueil = new AccueilPanel();
         panelLivres = new LivrePanel();
-        panelMembres = new MembrePanel();
-        
+        panelMembres = new MembrePanel();       
         panelEmprunts = new EmpruntPanel(panelLivres);
         
+        afficherPanel(panelAccueil, "Accueil - Statistiques");
         
         
         
@@ -343,7 +344,7 @@ public class dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        // TODO add your handling code here:
+       afficherPanel(panelAccueil, "Accueil - Statistiques");
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked

@@ -45,4 +45,8 @@ public class LivreService {
     public List<Livre> obtenirTousLesLivres() {
         return livreDao.findAll();
     }
+    
+    public List<Livre> rechercherLivresFormulaire(String titre, String auteur, String genre, int annee) {
+        return livreDao.rechercherParCriteres(titre, auteur, genre, annee);
+    }
 }
