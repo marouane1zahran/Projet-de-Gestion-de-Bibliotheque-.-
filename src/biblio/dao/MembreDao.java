@@ -114,12 +114,7 @@ public class MembreDao implements IDao<Membre> {
         }
         return membres;
     }
-    /**
-     * Recherche stricte d'un membre avec une connexion locale 100% isolée.
-     */
-   /**
-     * Recherche stricte d'un membre avec sa propre connexion locale anti-bug.
-     */
+   
     public List<Membre> rechercherParCriteresSecurise(String nom, String email, String dateInscription) {
         List<Membre> membresTrouves = new ArrayList<>();
         

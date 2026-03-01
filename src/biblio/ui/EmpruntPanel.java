@@ -123,9 +123,9 @@ public class EmpruntPanel extends JPanel {
             private void filtrer() {
                 String texte = txtRechercheRapide.getText();
                 if (texte.trim().length() == 0) {
-                    sorter.setRowFilter(null); // Affiche tout si la barre est vide
+                    sorter.setRowFilter(null); 
                 } else {
-                    // "(?i)" pour ignorer les majuscules/minuscules
+                   
                     sorter.setRowFilter(javax.swing.RowFilter.regexFilter("(?i)" + texte)); 
                 }
             }
@@ -193,7 +193,7 @@ public class EmpruntPanel extends JPanel {
 
         if (succes) {
             JOptionPane.showMessageDialog(this, "Emprunt enregistré avec succès !");
-            actualiserListesDeroulantes(); // Retire le livre de la liste car il n'est plus disponible
+            actualiserListesDeroulantes(); 
             actualiserTableau();
         } else {
             JOptionPane.showMessageDialog(this, "Erreur lors de l'enregistrement de l'emprunt.", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -208,10 +208,10 @@ public class EmpruntPanel extends JPanel {
             return;
         }
 
-        // Récupérer l'ID de l'emprunt (Colonne 0)
+        // Récupérer l'ID de l'emprunt 
         int idEmprunt = Integer.parseInt(tableModel.getValueAt(ligneSelectionnee, 0).toString());
 
-        // On vérifie visuellement si le livre n'est pas déjà rendu (pour éviter un appel inutile à la base)
+        // On vérifie visuellement si le livre n'est pas déjà rendu 
         String statut = tableModel.getValueAt(ligneSelectionnee, 5).toString();
         if (statut.contains("Rendu")) {
             JOptionPane.showMessageDialog(this, "Ce livre a déjà été retourné !", "Information", JOptionPane.INFORMATION_MESSAGE);

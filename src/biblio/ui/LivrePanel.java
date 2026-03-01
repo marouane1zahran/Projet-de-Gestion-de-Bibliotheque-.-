@@ -33,7 +33,7 @@ public class LivrePanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
        
 
-        // 1. Création du Formulaire (En haut)
+       
         JPanel panelFormulaire = new JPanel(new GridLayout(2, 4, 10, 10));
         panelFormulaire.setBorder(BorderFactory.createTitledBorder("Informations du Livre"));
         
@@ -46,7 +46,7 @@ public class LivrePanel extends JPanel {
         panelFormulaire.add(new JLabel("Année :"));
         panelFormulaire.add(txtAnnee);
 
-        // 2. Création des Boutons (Au centre)
+      
         JPanel panelBoutons = new JPanel(new FlowLayout());
         JButton btnAjouter = new JButton("Ajouter");
         JButton btnModifier = new JButton("Modifier");
@@ -63,7 +63,7 @@ public class LivrePanel extends JPanel {
         panelBoutons.add(btnChercher);
         panelBoutons.add(btnActualiser);
 
-        // Regroupement du formulaire et des boutons au Nord
+        
         JPanel panelNord = new JPanel(new BorderLayout());
         panelNord.add(panelFormulaire, BorderLayout.CENTER);
         panelNord.add(panelBoutons, BorderLayout.SOUTH);
@@ -178,7 +178,7 @@ public class LivrePanel extends JPanel {
             
             if (livreService.ajouterLivre(nouveauLivre)) {
                 JOptionPane.showMessageDialog(this, "Livre ajouté avec succès !");
-                actualiserTableau(); // On met à jour l'affichage
+                actualiserTableau(); 
                 viderChamps();
             } else {
                 JOptionPane.showMessageDialog(this, "Erreur lors de l'ajout.", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -252,7 +252,7 @@ public class LivrePanel extends JPanel {
                     "Veuillez sélectionner un livre dans le tableau avant de le supprimer.", 
                     "Aucune sélection", 
                     JOptionPane.WARNING_MESSAGE);
-            return; // On arrête la méthode ici
+            return;
         }
 
        
@@ -305,7 +305,6 @@ public class LivrePanel extends JPanel {
             String genre = txtGenre.getText().trim();
             String anneeStr = txtAnnee.getText().trim();
 
-            // 2. Règle métier : On vérifie que TOUS les champs sont remplis
             if (titre.isEmpty() || auteur.isEmpty() || genre.isEmpty() || anneeStr.isEmpty()) {
                 JOptionPane.showMessageDialog(this, 
                         "Veuillez remplir tous les champs du formulaire (Titre, Auteur, Genre, Année) pour lancer la recherche.", 

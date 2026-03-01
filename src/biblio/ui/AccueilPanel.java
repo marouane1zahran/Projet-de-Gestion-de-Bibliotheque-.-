@@ -1,6 +1,5 @@
-package biblio.ui; // Adapte à ton package
-
-import biblio.dao.LivreDao; // Adapte à ton package
+package biblio.ui; 
+import biblio.dao.LivreDao; 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -33,7 +32,7 @@ public class AccueilPanel extends JPanel {
      * Génère le graphique en barres avec les données de la base
      */
     private ChartPanel creerGraphiqueBarres() {
-        // A. Création de l'ensemble de données (Dataset)
+        //  Création de l'ensemble de données (Dataset)
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         
         // On interroge la BDD avec notre nouvelle méthode propre
@@ -56,11 +55,11 @@ public class AccueilPanel extends JPanel {
                 false                             // URLs
         );
 
-        // Optionnel : Fond blanc pour faire plus propre
+        // Fond blanc pour faire plus propre
         barChart.setBackgroundPaint(Color.WHITE);
         barChart.getPlot().setBackgroundPaint(new Color(245, 245, 245));
 
-        // C. On retourne le panneau Swing qui contient le graphique
+        // . On retourne le panneau Swing qui contient le graphique
         return new ChartPanel(barChart);
     }
     
@@ -69,13 +68,13 @@ public class AccueilPanel extends JPanel {
      * du graphique quand on clique sur l'onglet Accueil.
      */
     public void actualiserGraphique() {
-        this.removeAll(); // On vide l'ancien affichage
+        this.removeAll();
         
         JLabel lblTitre = new JLabel("Tableau de bord - Statistiques de la Bibliothèque", SwingConstants.CENTER);
         lblTitre.setFont(new Font("Arial", Font.BOLD, 24));
         add(lblTitre, BorderLayout.NORTH);
         
-        add(creerGraphiqueBarres(), BorderLayout.CENTER); // On recrée le graphique avec les nouvelles données
+        add(creerGraphiqueBarres(), BorderLayout.CENTER); 
         
         this.revalidate();
         this.repaint();

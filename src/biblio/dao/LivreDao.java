@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class LivreDao implements IDao<Livre> {
@@ -169,9 +167,7 @@ public class LivreDao implements IDao<Livre> {
        
     }
   
-  /**
-     * Récupère le nombre de livres groupés par genre pour le graphique.
-     */
+  
     public Map<String, Integer> compterLivresParGenre() {
         java.util.Map<String, Integer> statistiques = new java.util.HashMap<>();
         String sql = "SELECT genre, COUNT(*) as total FROM livre GROUP BY genre";
@@ -197,5 +193,8 @@ public class LivreDao implements IDao<Livre> {
 
         return statistiques;
     }
+    
+    
+    
     
 }

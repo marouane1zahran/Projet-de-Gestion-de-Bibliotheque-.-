@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package login;
+import biblio.dao.LoginDao;
 
 import java.util.HashMap;
 
@@ -16,6 +17,13 @@ public class Login extends javax.swing.JFrame {
    
     public Login() {
         initComponents();
+        try {
+            
+            java.awt.Image icon = java.awt.Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icones/LOGO Appli.png"));
+            this.setIconImage(icon);
+        } catch (Exception e) {
+            System.err.println("Erreur lors du chargement de l'icône : " + e.getMessage());
+        }
     }
 
     /**
@@ -40,6 +48,7 @@ public class Login extends javax.swing.JFrame {
         PasswordInput = new javax.swing.JPasswordField();
         loginBtn = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        lblMotDePasseOublie = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("LOGIN");
@@ -49,7 +58,6 @@ public class Login extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         Right.setBackground(new java.awt.Color(0, 102, 102));
-        Right.setPreferredSize(null);
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/login logo.png"))); // NOI18N
         jLabel5.setText("jLabel5");
@@ -128,24 +136,25 @@ public class Login extends javax.swing.JFrame {
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/fst_logo-removebg-preview.png"))); // NOI18N
 
+        lblMotDePasseOublie.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lblMotDePasseOublie.setText("Mot de passe oublié ?");
+        lblMotDePasseOublie.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblMotDePasseOublie.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblMotDePasseOublieMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblMotDePasseOublieMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblMotDePasseOublieMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout LeftLayout = new javax.swing.GroupLayout(Left);
         Left.setLayout(LeftLayout);
         LeftLayout.setHorizontalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
-                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(LeftLayout.createSequentialGroup()
-                            .addComponent(PasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addContainerGap())
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
-                            .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(emailInput, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel3))
-                            .addGap(34, 34, 34)))))
             .addGroup(LeftLayout.createSequentialGroup()
                 .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(LeftLayout.createSequentialGroup()
@@ -155,6 +164,23 @@ public class Login extends javax.swing.JFrame {
                         .addGap(109, 109, 109)
                         .addComponent(jLabel8)))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
+                .addContainerGap(39, Short.MAX_VALUE)
+                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LeftLayout.createSequentialGroup()
+                        .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(emailInput, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addGap(34, 34, 34))
+                    .addGroup(LeftLayout.createSequentialGroup()
+                        .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(LeftLayout.createSequentialGroup()
+                                .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblMotDePasseOublie))
+                            .addComponent(PasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())))
         );
         LeftLayout.setVerticalGroup(
             LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,7 +198,9 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PasswordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(LeftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(loginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMotDePasseOublie))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
 
@@ -202,41 +230,91 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_emailInputActionPerformed
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
-        String emailSaisi = emailInput.getText();       
-  
-        String motDePasseSaisi = new String(PasswordInput.getPassword());
-           
-        String motDePasseHache = SecurityUtils.hashPassword(motDePasseSaisi);
+       String email = emailInput.getText().trim();
+    
+    // 2. Récupérer le mot de passe
+    // On utilise getPassword() au lieu de getText() car c'est un JPasswordField (plus sécurisé)
+    String password = new String(PasswordInput.getPassword());
 
+    // 3. Vérification de base : est-ce que l'utilisateur a tout rempli ?
+    if (email.isEmpty() || password.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Veuillez remplir l'email et le mot de passe.", 
+                "Champs manquants", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+   
+    biblio.dao.LoginDao loginDao = new biblio.dao.LoginDao();
+
+    if (loginDao.verifierLogin(email, password)) {
+       
+        this.dispose(); 
         
-        IdAndPasswords idAndPasswords = new IdAndPasswords();
-        HashMap<String, String> logininfo = idAndPasswords.getLoginInfo();
         
-        if (logininfo.containsKey(emailSaisi)) {
-           
-            if (logininfo.get(emailSaisi).equals(motDePasseHache)) {
-                                                                       
-                biblio.ui.dashboard dash = new biblio.ui.dashboard();
-                dash.setVisible(true);
+        new biblio.ui.dashboard().setVisible(true); 
+        
+    } else {
+        
+        javax.swing.JOptionPane.showMessageDialog(this, 
+                "Email ou mot de passe incorrect.", 
+                "Erreur d'authentification", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
                 
-               
-                this.dispose(); 
-                
-            } else {
-               
-                javax.swing.JOptionPane.showMessageDialog(this, 
-                        "Mot de passe incorrect.", 
-                        "Erreur d'authentification", 
-                        javax.swing.JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            
-            javax.swing.JOptionPane.showMessageDialog(this, 
-                    "Cet email n'existe pas dans le système.", 
-                    "Erreur d'authentification", 
-                    javax.swing.JOptionPane.WARNING_MESSAGE);
-        }
+       
+        PasswordInput.setText(""); 
+    }
     }//GEN-LAST:event_loginBtnActionPerformed
+
+    private void lblMotDePasseOublieMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMotDePasseOublieMouseClicked
+       String emailSaisi = javax.swing.JOptionPane.showInputDialog(this, 
+            "Entrez votre adresse e-mail pour recevoir un nouveau mot de passe :", 
+            "Mot de passe oublié", 
+            javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+    
+    if (emailSaisi != null && !emailSaisi.trim().isEmpty()) {
+        
+        
+        setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.WAIT_CURSOR));
+        
+        biblio.dao.LoginDao loginDao = new biblio.dao.LoginDao();
+        
+      boolean succes = loginDao.reinitialiserEtEnvoyerMotDePasse(emailSaisi.trim());
+        
+        setCursor(java.awt.Cursor.getDefaultCursor()); // On remet le curseur normal
+
+        if (succes) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Un nouveau mot de passe temporaire a été envoyé à " + emailSaisi, 
+                    "Succès", 
+                    javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                    "Impossible de réinitialiser le mot de passe. Vérifiez que cette adresse e-mail existe bien.", 
+                    "Erreur", 
+                    javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    }//GEN-LAST:event_lblMotDePasseOublieMouseClicked
+
+    private void lblMotDePasseOublieMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMotDePasseOublieMouseEntered
+                                                    
+   
+    lblMotDePasseOublie.setForeground(new java.awt.Color(255, 51, 51)); 
+    
+
+    }//GEN-LAST:event_lblMotDePasseOublieMouseEntered
+
+    private void lblMotDePasseOublieMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMotDePasseOublieMouseExited
+                                                     
+    // Remet la couleur d'origine (ex: un bleu classique ou gris)
+    lblMotDePasseOublie.setForeground(new java.awt.Color(51, 102, 255)); // Code RGB pour bleu
+    
+ 
+
+    }//GEN-LAST:event_lblMotDePasseOublieMouseExited
 
     /**
      * @param args the command line arguments
@@ -288,6 +366,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblMotDePasseOublie;
     private javax.swing.JButton loginBtn;
     // End of variables declaration//GEN-END:variables
 }

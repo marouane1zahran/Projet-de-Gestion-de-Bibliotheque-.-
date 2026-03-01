@@ -23,7 +23,7 @@ public class MembreService {
             return false;
         }
         
-        // Règle métier : Forcer la date d'inscription à aujourd'hui si elle n'est pas fournie
+        // Forcer la date d'inscription à aujourd'hui si elle n'est pas fournie
         if (membre.getDateInscription() == null) {
             membre.setDateInscription(LocalDate.now());
         }

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package biblio.ui;
 
 import biblio.model.Membre;
@@ -127,8 +123,8 @@ public class MembrePanel extends JPanel {
     private void viderChamps() {
         txtNom.setText("");
         txtEmail.setText("");
-        txtDateInscription.setText(LocalDate.now().toString()); // Remet la date du jour
-        tableMembres.clearSelection(); // Désélectionne la ligne visuellement
+        txtDateInscription.setText(LocalDate.now().toString()); 
+        tableMembres.clearSelection(); 
     }
 
     private void ajouterMembre() {

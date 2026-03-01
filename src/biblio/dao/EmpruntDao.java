@@ -28,7 +28,7 @@ public class EmpruntDao implements IDao<Emprunt> {
             ps.setInt(2, emprunt.getMembre().getIdMembre());
             ps.setDate(3, Date.valueOf(emprunt.getDateEmprunt()));
             
-            // La date de retour peut être nulle lors de la création d'un emprunt
+            
             if (emprunt.getDateRetour() != null) {
                 ps.setDate(4, Date.valueOf(emprunt.getDateRetour()));
             } else {
@@ -118,9 +118,9 @@ public class EmpruntDao implements IDao<Emprunt> {
         return emprunts;
     }
 
-    // Méthode utilitaire pour éviter la duplication de code entre findById et findAll
+    
     private Emprunt extractEmpruntFromResultSet(ResultSet rs) throws SQLException {
-        // 1. Reconstruire le Livre
+       
         Livre livre = new Livre(
             rs.getInt("l.id_livre"),
             rs.getString("l.titre"),
@@ -130,7 +130,7 @@ public class EmpruntDao implements IDao<Emprunt> {
             rs.getBoolean("l.disponible")
         );
 
-        // 2. Reconstruire le Membre
+       
         Membre membre = new Membre(
             rs.getInt("m.id_membre"),
             rs.getString("m.nom"),
@@ -138,13 +138,13 @@ public class EmpruntDao implements IDao<Emprunt> {
             rs.getDate("m.date_inscription").toLocalDate()
         );
 
-        // 3. Gérer la date de retour potentiellement nulle
+        
         LocalDate dateRetour = null;
         if (rs.getDate("e.date_retour") != null) {
             dateRetour = rs.getDate("e.date_retour").toLocalDate();
         }
 
-        // 4. Retourner l'Emprunt complet
+        
         return new Emprunt(
             rs.getInt("e.id_emprunt"),
             livre,
